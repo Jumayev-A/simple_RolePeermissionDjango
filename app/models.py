@@ -1,41 +1,43 @@
 from django.db import models
 from django.contrib.auth.models import User
 from multiselectfield import MultiSelectField
+
 # Create your models here.
 
 
-class Roles(models.Model):
-    Permissions = (
-        (1, "Can Create"),
-        (2, "Can Read"),
-        (3, "Can Update"),
-        (4, "Can Delete")
+Permissions = (
+        (1, 'Create'),
+        (2, 'Red'),
+        (3, 'Update'),
+        (4, 'Delete'),
     )
-    role_name = models.CharField(max_length=10, unique=True)
-    permissions = MultiSelectField(choices=Permissions, max_length=10, unique=True)
-
-    def __str__(self):
-        return f"{self.role_name}"
-    
-    class Meta:
-        verbose_name = 'Rollar'
-        verbose_name_plural = "Rollar"
 
 
-
-
-class Account(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    roles = models.ManyToManyField(Roles, blank=True)
+class Permission(models.Model):
+    permissions = MultiSelectField(choices=Permissions, max_length=10)
 
     class Meta:
-        verbose_name = 'Ulanyjylar'
-        verbose_name_plural = 'Ulanyjylar'
+        verbose_name = 'Rugsat'
+        verbose_name_plural = 'Rugsat'
 
-class TestModel(models.Model):
-    owner = models.ForeignKey(Account, on_delete=models.CASCADE)
-    name = models.CharField(max_length=5)
-    desc = models.TextField()
-
+class Role(models.Model):
+    name = models.CharField(max_length=25)
+    permission = models.OneToOneField(Permission, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
+
+    class Meta:
+        verbose_name = 'Rol'
+        verbose_name_plural = 'Rol'
+
+class Users(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+    roles = models.ManyToManyField(Role, blank=True)
+    permission = MultiSelectField(choices=Permissions, max_length=10)
+
+# class UserPermission(models.Model):
+#     user = models.OneToOneField(User, on_delete=models.CASCADE)
+#     permission = MultiSelectField(choices=Permissions, max_length=10)
+
+
+
