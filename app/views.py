@@ -12,8 +12,9 @@ def login_view(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            messages.success(request, f"Salam, {username}")
             login(request, user)
-            return redirect('app:home')
+            return redirect('app:group')
         else:
             messages.error(request, "Login Failed!")
     return render(request, 'login.html', context)
@@ -21,11 +22,40 @@ def login_view(request):
 @login_required(login_url='/login/')
 def logout_view(request):
     logout(request)
-    return redirect('home')
+    return redirect('app:group')
+
+
+# Group function
+@login_required(login_url='/login/')
+def group(request):
+    context = {
+        "datas": None,
+        "title": "Toparlar",
+        "group_page_active": "active"
+    }
+    return render(request, 'group.html', context)
 
 @login_required(login_url='/login/')
-def home(request):
+def group_add(request):
     context = {
-        "datas": None
+        "title": "Topar goş",
+        "group_page_active": "active"
     }
-    return render(request, 'home.html', context)
+    return render(request, "group_add.html", context)
+
+# User function
+@login_required(login_url='/login/')
+def users(request):
+    context = {
+        "title": "Ulanjylar",
+        "users_page_active": "active"
+    }
+    return render(request, 'users.html', context)
+
+@login_required(login_url='/login/')
+def users_add(request):
+    context = {
+        "title": "Ulanjy goşmak",
+        "users_page_active": "active"
+    }
+    return render(request, 'users_add.html', context)
