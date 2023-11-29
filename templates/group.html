@@ -65,13 +65,12 @@
                   </tr>
                   </thead>
                   <tbody>
+                  {% for group in groups %}
                   <tr>
-                    <td>1</td>
-                    <td>Admin</td>
-                    <td>gosmak ayyrmak</td>
-                    <td>
-                      4
-                    </td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ group.name }}</td>
+                    <td>{{ group.permission }}</td>
+                    <td>{{ group.users.all.count }}</td>
                     <td>
                       <div class="margin">
                         <!-- <div class="btn-group">
@@ -86,6 +85,7 @@
                       </div>
                     </td>
                   </tr>
+                  {% endfor %}
                   </tbody>
                   <tfoot>
                     <tr>

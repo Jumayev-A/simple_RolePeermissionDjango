@@ -57,39 +57,31 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form>
+              <form action="{% url 'app:group_add' %}" method="post">{% csrf_token %}
                 <div class="card-body">
                   <div class="form-group">
                     <label for="exampleInputEmail1">Toparyň ady</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Toparyň ady">
+                    <input type="text" class="form-control" id="exampleInputEmail1" name="group_name" placeholder="Toparyň ady">
                   </div>
                   <div class="form-group">
                     <label>Rugsatlar</label>
-                    <select class="duallistbox" multiple="multiple">
-                      <option>Alabama</option>
-                      <option>Alaska</option>
-                      <option>California</option>
-                      <option>Delaware</option>
-                      <option>Tennessee</option>
-                      <option>Texas</option>
-                      <option>Washington</option>
+                    <select class="duallistbox" multiple="multiple" name="permissions">
+                      {% for permission in permissions %}
+                      <option value="{{ permission.0 }}">{{ permission.1 }}</option>
+                      {% endfor %}
                     </select>
                   </div>
                   <div class="form-group">
-                    <label>Degişli ulanjylar</label>
-                    <select class="duallistbox2" multiple="multiple">
-                      <option>Alabama</option>
-                      <option>Alaska</option>
-                      <option>California</option>
-                      <option>Delaware</option>
-                      <option>Tennessee</option>
-                      <option>Texas</option>
-                      <option>Washington</option>
+                    <label>Degişli ulanjylar {{users}}</label>
+                    <select class="duallistbox2" multiple="multiple" name="users">
+                      {% for user in users %}
+                      <option value="{{ user }}">{{ user }}</option>
+                      {% endfor %}
                     </select>
                   </div>
                 </div>
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Ýatda sakla</button>
                 </div>
               </form>
             </div>
