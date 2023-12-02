@@ -66,7 +66,8 @@ def group_add(request):
 def users(request):
     context = {
         "title": "Ulanjylar",
-        "users_page_active": "active"
+        "users_page_active": "active",
+        "users": models.Account.objects.filter(user__is_active=True).order_by("-id")
     }
     return render(request, 'users.html', context)
 
@@ -74,6 +75,36 @@ def users(request):
 def users_add(request):
     context = {
         "title": "Ulanjy goşmak",
-        "users_page_active": "active"
+        "users_page_active": "active",
+        "user_groups": models.Role.objects.filter(is_active=True),
+        "user_permissions": models.Permissions,
     }
+    if request.method == "POST":
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        user_name = request.POST.get("user_name")
+        password = request.POST.get("password")
+        user_groups = request.POST.getlist("user_groups")
+        user_permissions = request.POST.getlist("user_permissions")
+        if not User.objects.filter(first_name=first_name, last_name=last_name, username=user_name).exists():
+            user = User.objects.create_user(first_name=first_name, last_name=last_name, username=user_name, password=password)
+        else:
+            user = User.objects.get(first_name=first_name, last_name=last_name, username=user_name)
+        if not models.Account.objects.filter(user=user).exists() and not models.AccountPermission.objects.filter(user=user).exists():
+            account = models.Account.objects.create(user=user)
+            for user_group in user_groups:
+                group = models.Role.objects.get(id=user_group)
+                account.roles.add(group)
+            account.save()
+
+            account_permision = models.AccountPermission.objects.create(user=user)
+            for user_group in user_groups:
+                group = models.Role.objects.get(id=user_group)
+                for group_permission in group.permission:
+                    if group_permission not in user_permissions:
+                        user_permissions.append(group_permission)
+            account_permision.permission = user_permissions
+            account_permision.save()
+            messages.success(request, "Ulanyjy gosuldy !")
+        messages.info(request, "Ulanyjy eyyam bar !")
     return render(request, 'users_add.html', context)

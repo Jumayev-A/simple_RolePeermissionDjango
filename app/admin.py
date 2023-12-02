@@ -1,6 +1,9 @@
 from django.contrib import admin
 from app import models
 
+admin.site.register(models.Account)
+admin.site.register(models.AccountPermission)
+
 @admin.register(models.Role)
 class RoleAdmin(admin.ModelAdmin):
     list_display = ['name', "permission", "list_users"]

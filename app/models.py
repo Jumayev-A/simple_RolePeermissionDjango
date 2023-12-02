@@ -7,10 +7,14 @@ import uuid
 
 
 Permissions = (
-        ('create', 'CREATE'),
-        ('red', 'RED'),
-        ('update', 'UPDATE'),
-        ('delete', 'DELETE'),
+        ('createRole', 'Topar goşmak'),
+        ('viewRole', 'Topar görmek'),
+        ('updateRole', 'Topar üýtgetmek'),
+        ('deleteRole', 'Topar pozmak'),
+        ('createUser', 'Ulanyjy goşmak'),
+        ('viewUser', 'Ulanyjy görmek'),
+        ('updateUser', 'Ulanyjy üýtgetmek'),
+        ('deleteUser', 'Ulanyjy pozmak'),
     )
 
 class Role(models.Model):
@@ -24,7 +28,7 @@ class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, default=1, unique=True)
     roles = models.ManyToManyField(Role, blank=True)
 
-class UserPermission(models.Model):
+class AccountPermission(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, unique=True)
     permission = MultiSelectField(choices=Permissions, max_length=10, null=True, blank=True)
 

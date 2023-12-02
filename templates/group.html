@@ -162,32 +162,6 @@
     
   });
 </script>
-<!-- Toastr -->
-<link rel="stylesheet" href="{% static 'plugins/toastr/toastr.min.css' %}">
-<script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
-{% if messages %}
-{% for message in messages %}
-<script>
-
-  var message_type = `{{ message.tags }}`;
-
-  if (message_type == 'info') {
-    toastr.info(`{{ message }}`);
-
-  } else if (message_type == 'success') {
-    toastr.success(`{{ message }}`);
-    
-  } else if (message_type == 'warning') {
-    toastr.warning(`{{ message }}`);
-    
-  } else if (message_type == 'error') {
-    toastr.error(`{{ message }}`);
-    
-  }
-
-  
-</script>
-{% endfor %}
-{% endif %}
+{% include 'message.html' %}
 </body>
 </html>

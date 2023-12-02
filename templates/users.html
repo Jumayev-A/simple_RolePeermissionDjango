@@ -67,13 +67,14 @@
                   </tr>
                   </thead>
                   <tbody>
+                  {% for user in users %}
                   <tr>
-                    <td>1</td>
-                    <td>Admin</td>
-                    <td>gosmak ayyrmak</td>
-                    <td>4</td>
-                    <td>Admin</td>
-                    <td>gosmak ayyrmak</td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ user.user.first_name }}</td>
+                    <td>{{ user.user.last_name }}</td>
+                    <td>{{ user.user.username }}</td>
+                    <td>{{ user.roles.all }}</td>
+                    <td>{{ user.user.accountpermission.permission }}</td>
                     <td>
                       <div class="margin">
                         <!-- <div class="btn-group">
@@ -88,6 +89,7 @@
                       </div>
                     </td>
                   </tr>
+                  {% endfor %}
                   </tbody>
                   <tfoot>
                     <tr>
@@ -166,32 +168,6 @@
     
   });
 </script>
-<!-- Toastr -->
-<link rel="stylesheet" href="{% static 'plugins/toastr/toastr.min.css' %}">
-<script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
-{% if messages %}
-{% for message in messages %}
-<script>
-
-  var message_type = `{{ message.tags }}`;
-
-  if (message_type == 'info') {
-    toastr.info(`{{ message }}`);
-
-  } else if (message_type == 'success') {
-    toastr.success(`{{ message }}`);
-    
-  } else if (message_type == 'warning') {
-    toastr.warning(`{{ message }}`);
-    
-  } else if (message_type == 'error') {
-    toastr.error(`{{ message }}`);
-    
-  }
-
-  
-</script>
-{% endfor %}
-{% endif %}
+{% include 'message.html' %}
 </body>
 </html>

@@ -57,19 +57,19 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form>
+              <form action="{% url 'app:users_add' %}" method="post">{% csrf_token %}
                 <div class="card-body">
                   <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Ady</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ady">
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ady" name="first_name">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Familýasy</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Familýasy">
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Familýasy" name="last_name">
                       </div>
                     </div>
                   </div>
@@ -77,26 +77,30 @@
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Ulanyjy ady</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ulanyjy ady">
+                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ulanyjy ady" name="user_name">
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="exampleInputEmail1">Açar sözi</label>
-                        <input type="password" class="form-control" id="exampleInputEmail1" placeholder="Açar sözi">
+                        <input type="password" class="form-control" id="exampleInputEmail1" placeholder="Açar sözi" name="password">
                       </div>
                     </div>
                   </div>
                   <div class="form-group">
                     <label>Degişli toparlary</label>
-                    <select class="duallistbox" multiple="multiple">
-                      <option>Alabama</option>
-                      <option>Alaska</option>
-                      <option>California</option>
-                      <option>Delaware</option>
-                      <option>Tennessee</option>
-                      <option>Texas</option>
-                      <option>Washington</option>
+                    <select class="duallistbox" multiple="multiple" name="user_groups">
+                      {% for user_group in user_groups %}
+                      <option value="{{ user_group.id }}">{{ user_group.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Degişli Rugsatlary</label>
+                    <select class="duallistbox" multiple="multiple" name="user_permissions">
+                      {% for user_permission in user_permissions %}
+                      <option value="{{ user_permission.0 }}">{{ user_permission.1 }}</option>
+                      {% endfor %}
                     </select>
                   </div>
                 </div>
@@ -151,6 +155,7 @@ $(function () {
 $('.duallistbox').bootstrapDualListbox()
 
 </script>
+{% include 'message.html' %}
 </body>
 
 
