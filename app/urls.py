@@ -10,6 +10,7 @@ urlpatterns = [
     # Group urls
     path('',views.group, name='group'),
     path('group_add/', views.group_add, name='group_add'),
+    path('group_update/<uuid:id>/', views.group_update, name='group_update'),
 
     # Users urls
     path('users/', views.users, name='users'),

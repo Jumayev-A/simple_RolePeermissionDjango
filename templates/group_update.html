@@ -31,12 +31,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Ulanjy goşmak</h1>
+            <h1>Topar Uygetmek</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{% url 'app:users' %}">Ulanjylar</a></li>
-              <li class="breadcrumb-item active">Ulanjy gos</li>
+              <li class="breadcrumb-item"><a href="{% url 'app:group' %}">Toparlar</a></li>
+              <li class="breadcrumb-item active">Topar gos</li>
             </ol>
           </div>
         </div>
@@ -53,59 +53,43 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Formy doldyryň</h3>
+                <h3 class="card-title">Formy uytgedin</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form action="{% url 'app:users_add' %}" method="post">{% csrf_token %}
+              <form action="{% url 'app:group_update' group.id %}" method="post">{% csrf_token %}
                 <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Ady</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ady" name="first_name">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Familýasy</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Familýasy" name="last_name">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Ulanyjy ady</label>
-                        <input type="text" class="form-control" id="exampleInputEmail1" placeholder="Ulanyjy ady" name="user_name">
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label for="exampleInputEmail1">Açar sözi</label>
-                        <input type="password" class="form-control" id="exampleInputEmail1" placeholder="Açar sözi" name="password">
-                      </div>
-                    </div>
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Toparyň ady</label>
+                    <input type="text" class="form-control" id="exampleInputEmail1" name="group_name" placeholder="Toparyň ady" value="{{ group.name }}">
                   </div>
                   <div class="form-group">
-                    <label>Degişli toparlary</label>
-                    <select class="duallistbox" multiple="multiple" name="user_groups">
-                      {% for user_group in user_groups %}
-                      <option value="{{ user_group.id }}">{{ user_group.name }}</option>
+                    <label>Rugsatlar</label>
+                    <select class="duallistbox" multiple="multiple" name="permissions">
+                      {% for permission in permissions %}
+                      {% if permission.0 in group.permission %}
+                      <option value="{{ permission.0 }}" selected>{{ permission.1 }}</option>
+                      {% else %}
+                      <option value="{{ permission.0 }}">{{ permission.1 }}</option>
+                      {% endif %}
                       {% endfor %}
                     </select>
                   </div>
                   <div class="form-group">
-                    <label>Degişli Rugsatlary</label>
-                    <select class="duallistbox" multiple="multiple" name="user_permissions">
-                      {% for user_permission in user_permissions %}
-                      <option value="{{ user_permission.0 }}">{{ user_permission.1 }}</option>
+                    <label>Degişli ulanjylar</label>
+                    <select class="duallistbox2" multiple="multiple" name="users">
+                      {% for user in users %}
+                      {% if user in group.users.all %}
+                      <option value="{{ user }}" selected>{{ user }}</option>
+                      {% else %}
+                      <option value="{{ user }}">{{ user }}</option>
+                      {% endif %}
                       {% endfor %}
                     </select>
                   </div>
                 </div>
                 <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary">Ýatda sakla</button>
                 </div>
               </form>
             </div>
@@ -148,7 +132,7 @@ $(function () {
 });
 //Bootstrap Duallistbox
 $('.duallistbox').bootstrapDualListbox()
-
+$('.duallistbox2').bootstrapDualListbox()
 </script>
 {% include 'message.html' %}
 </body>

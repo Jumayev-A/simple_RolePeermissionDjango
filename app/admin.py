@@ -6,11 +6,7 @@ admin.site.register(models.AccountPermission)
 
 @admin.register(models.Role)
 class RoleAdmin(admin.ModelAdmin):
-    list_display = ['name', "permission", "list_users"]
-
-    def list_users(self, obj):
-        
-        return ",".join([u for u in obj.users.all()])
+    list_display = ['name', "permission",]
 
 # @admin.register(models.Users)
 # class UsersAdmin(admin.ModelAdmin):
