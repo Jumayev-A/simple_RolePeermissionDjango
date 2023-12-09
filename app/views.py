@@ -16,8 +16,9 @@ def login_view(request):
             login(request, user)
             return redirect('app:group')
         else:
-            messages.error(request, "Login Failed!")
+            messages.error(request, "Giriş şowsuz!")
     return render(request, 'login.html', context)
+
 
 @login_required(login_url='/login/')
 def logout_view(request):
@@ -147,6 +148,14 @@ def group_update(request, id):
         messages.error(request, "Topar tapylmady !")
         return redirect("app:group")
     return render(request, "group_update.html", context)
+
+@login_required(login_url='/login/')
+def group_delete(request, id):
+    context = {
+        "title": "Topar goş",
+        "group_page_active": "active",
+    }
+    return render(request, "group_delete.html", context)
 
 # User function
 @login_required(login_url='/login/')
